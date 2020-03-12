@@ -41,7 +41,7 @@ namespace Ctrl.System.DataAccess
         {
             StringBuilder sql = new StringBuilder();
             sql.Append(@"	SELECT
-	                            func.* ,menu.Area,menu.Controller,menu.Action
+	                             distinct(MenuButtonId),func.* ,menu.Area,menu.Controller,menu.Action
                             FROM
 	                            sys_menubutton func
 	                            LEFT JOIN sys_menu menu ON func.MenuId = menu.MenuId
