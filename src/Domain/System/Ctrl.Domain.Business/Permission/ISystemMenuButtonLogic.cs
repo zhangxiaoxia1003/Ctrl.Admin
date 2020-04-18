@@ -34,5 +34,12 @@ namespace Ctrl.System.Business
         /// <param name="input"></param>
         /// <returns></returns>
         Task<IEnumerable<SystemMenuButtonOutput>> GetMenuButtonByMenuId(IdInput input);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<OperateStatus> Delete(IdInput input);
     }
 }

@@ -99,6 +99,17 @@ namespace Ctrl.Net.Areas.sysManage.Controllers
             return Json(await _systemDictionaryLogic.GetTypeChildrenByCode(input));
         }
 
+        /// <summary>
+        ///     删除字典
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        [CreateBy("Felix")]
+        [Description("字典管理-方法-列表-删除字典")]
+        public async Task<JsonResult> Delete(IdInput input)
+        {
+            return Json(await _systemDictionaryLogic.Delete(input));
+        }
         #endregion
     }
 }

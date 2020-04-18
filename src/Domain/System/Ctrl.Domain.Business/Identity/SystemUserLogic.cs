@@ -104,7 +104,7 @@ namespace Ctrl.Domain.Business.Identity
             {
                 user.CreateTime = DateTime.Now;
                 user.UserId = CombUtil.NewComb().ToString();
-                user.Password = _3DESEncrypt.Encrypt("123456"); ;
+                user.Password = _3DESEncrypt.Encrypt("123456"); 
                 operateStatus = await InsertAsync(user as SystemUser);
                 if (operateStatus.ResultSign == ResultSign.Successful)
                 {
@@ -181,6 +181,48 @@ namespace Ctrl.Domain.Business.Identity
             return operateStatus;
         }
 
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<OperateStatus> Delete(IdInput input)
+        {
+            var OperateStatus = new OperateStatus();
+            var Entity = await GetById(input.Id);
+            //判断是否存在
+            if (Entity == default(SystemUser))
+            {
+                OperateStatus.ResultSign = ResultSign.Error;
+                OperateStatus.Message = Chs.HaveDelete;
+                goto Ending;
+            }
+            OperateStatus = await DeleteAsync(Entity);
+        Ending:
+            return OperateStatus;
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<OperateStatus> UpdatePassword(UpdatePassInput input)
+        {
+            var OperateStatus = new OperateStatus();
+            var Entity = await GetById(input.UserID);
+            //判断是否存在
+            if (Entity == default(SystemUser))
+            {
+                OperateStatus.ResultSign = ResultSign.Error;
+                OperateStatus.Message = Chs.HaveDelete;
+                goto Ending;
+            }
+            Entity.Password = _3DESEncrypt.Encrypt(input.NewPassword);
+            OperateStatus = await UpdateAsync(Entity);
+        Ending:
+            return OperateStatus;
+        }
         #endregion
     }
 }

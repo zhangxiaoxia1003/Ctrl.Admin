@@ -1,6 +1,8 @@
 using Ctrl.Core.Business;
+using Ctrl.Core.Core.Resource;
 using Ctrl.Core.Core.Utils;
 using Ctrl.Core.Entities;
+using Ctrl.Core.Entities.Dtos;
 using Ctrl.Core.Entities.Paging;
 using Ctrl.Core.Entities.Tree;
 using Ctrl.System.DataAccess;
@@ -56,6 +58,27 @@ namespace Ctrl.System.Business
         public Task<IEnumerable<TreeEntity>> GetAllRoleTree()
         {
             return _systemRoleRepository.GetAllRoleTree();
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<OperateStatus> Delete(IdInput input)
+        {
+            var OperateStatus = new OperateStatus();
+            var Entity = await GetById(input.Id);
+            //判断是否存在
+            if (Entity == default(SystemRole))
+            {
+                OperateStatus.ResultSign = ResultSign.Error;
+                OperateStatus.Message = Chs.HaveDelete;
+                goto Ending;
+            }
+            OperateStatus = await DeleteAsync(Entity);
+        Ending:
+            return OperateStatus;
         }
         #endregion
     }

@@ -100,6 +100,18 @@ namespace Ctrl.Net.Areas.sysManage.Controllers
         {
             return Json(await _systemMenuButtonLogic.GetMenuButtonByMenuId(input));
         }
+
+        /// <summary>
+        ///     删除按钮
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        [CreateBy("Felix")]
+        [Description("界面按钮-方法-删除")]
+        public async Task<JsonResult> Delete(IdInput input)
+        {
+            return Json(await _systemMenuButtonLogic.Delete(input));
+        }
         #endregion
     }
 }

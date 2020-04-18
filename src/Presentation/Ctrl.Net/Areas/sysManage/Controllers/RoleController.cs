@@ -55,9 +55,14 @@ namespace Ctrl.Net.Areas.sysManage.Controllers
         [CreateBy("冯辉")]
         [Description("角色维护-视图-编辑")]
         [Permission("xtgl-jswh-SaveRole")]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(NullableIdInput input)
         {
-            return View();
+            var role = new SystemRole();
+            if (!input.Id.IsNullOrEmptyGuid())
+            {
+                role = await _systemRoleLogic.GetById(input.Id);
+            }
+            return View(role);
         }
         /// <summary>
         ///     权限列表
@@ -101,7 +106,19 @@ namespace Ctrl.Net.Areas.sysManage.Controllers
         {
             return JsonForGridPaging(await _systemRoleLogic.GetPagingSysRole(queryParam));
         }
-        
+
+        /// <summary>
+        ///     删除角色
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        [CreateBy("Felix")]
+        [Description("角色列表-方法-方法-删除")]
+        public async Task<JsonResult> Delete(IdInput input)
+        {
+            return Json(await _systemRoleLogic.Delete(input));
+        }
+
         #endregion
     }
 }

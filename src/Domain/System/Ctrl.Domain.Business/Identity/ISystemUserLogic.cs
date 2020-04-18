@@ -40,5 +40,19 @@ namespace Ctrl.Domain.Business.Identity
         /// <param name="input">需要验证的参数</param>
         /// <returns></returns>
         Task<OperateStatus> CheckUserCode(CheckSameValueInput input);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<OperateStatus> Delete(IdInput input);
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<OperateStatus> UpdatePassword(UpdatePassInput input);
     }
 }

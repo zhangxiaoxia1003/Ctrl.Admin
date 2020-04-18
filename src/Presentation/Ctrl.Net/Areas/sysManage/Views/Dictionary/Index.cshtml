@@ -6,7 +6,6 @@
     <div id="toolbar">
         <h1 class="page-title">字典</h1>
         <div class="form-inline pull-right">
-            <button class="btn btn-default btn-xs" name="btn_select_box" type="submit"><i class=" fa fa-search fa-lg"></i> 查询 </button>
             <input id="pid" name="id" hidden>
 
         </div>
@@ -84,5 +83,30 @@
             return false;
         }
         $.windowsOpen("/sysManage/dictionary/Edit?id=" + obj.dictionaryId, "编辑字典", '55%', '65%');
+    }
+
+    function btn_delete_box() {
+        var obj = $grid.gridRowValue();
+        if (obj == null) {
+            $.Alert({ resultSign: 1, message: "请选择要删除的项！" });
+            return false;
+        }
+        Swal.fire({
+            title: '是否删除该数据?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '删除',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.value) {
+                $delete("/SysManage/Dictionary/Delete", { id: obj.dictionaryId }).then(function (data) {
+                    $.Alert(data, function () {
+                        $grid.registersearchClick();
+                    });
+                })
+            }
+        })
     }
 </script>

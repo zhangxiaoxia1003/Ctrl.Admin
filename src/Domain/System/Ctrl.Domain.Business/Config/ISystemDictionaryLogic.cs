@@ -41,5 +41,12 @@ namespace Ctrl.System.Business
         /// <param name="input"></param>
         /// <returns></returns>
         Task<IEnumerable<Select2Entity>> GetTypeChildrenByCode(IdInput input);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<OperateStatus> Delete(IdInput input);
     }
 }

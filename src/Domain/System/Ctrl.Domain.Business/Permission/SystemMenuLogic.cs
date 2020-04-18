@@ -21,7 +21,8 @@ namespace Ctrl.System.Business {
         #region 构造函数
         private readonly ISystemMenuRepository _systemMenuRepository;
 
-        public SystemMenuLogic(ISystemMenuRepository systemMenuRepository){
+        public SystemMenuLogic(ISystemMenuRepository systemMenuRepository):base(systemMenuRepository)
+        {
             this._systemMenuRepository = systemMenuRepository;
         }
         #endregion

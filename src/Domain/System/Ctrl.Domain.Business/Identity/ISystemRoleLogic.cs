@@ -1,5 +1,6 @@
 using Ctrl.Core.Business;
 using Ctrl.Core.Entities;
+using Ctrl.Core.Entities.Dtos;
 using Ctrl.Core.Entities.Paging;
 using Ctrl.Core.Entities.Tree;
 using Ctrl.System.Models.Entities;
@@ -32,6 +33,11 @@ namespace Ctrl.System.Business
         /// <returns></returns>
         Task<IEnumerable<TreeEntity>> GetAllRoleTree();
 
-
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<OperateStatus> Delete(IdInput input);
     }
 }

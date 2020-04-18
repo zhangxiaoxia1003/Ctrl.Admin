@@ -1,4 +1,5 @@
 ﻿using Ctrl.Core.Core.Attributes;
+using Ctrl.Core.Core.Utils;
 using Ctrl.Core.Entities.Dtos;
 using Ctrl.Core.Entities.Paging;
 using Ctrl.Core.Web;
@@ -44,7 +45,24 @@ namespace Ctrl.Net.Areas.sysManage.Controllers
         [CreateBy("冯辉")]
         [Description("应用系统-用户-编辑")]
         [Permission("xtgl-xtyh-SaveUser")]
-        public IActionResult Edit() {
+        public async Task<IActionResult> Edit(NullableIdInput input) {
+            var user = new SystemUser();
+            if (!input.Id.IsNullOrEmptyGuid())
+            {
+                user = await _systemUserLogic.GetById(input.Id);
+            }
+            return View(user);
+        }
+
+        /// <summary>
+        ///     修改密码
+        /// </summary>
+        /// <returns></returns>
+        [CreateBy("Felix")]
+        [Description("应用系统-用户-修改密码")]
+        public IActionResult UpdatePass(NullableIdInput input)
+        {
+            ViewBag.userID = input.Id;
             return View();
         }
         #endregion
@@ -78,6 +96,29 @@ namespace Ctrl.Net.Areas.sysManage.Controllers
             return Json(await _systemUserLogic.CheckUserCode(input));
         }
 
+        /// <summary>
+        ///     删除用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        [CreateBy("Felix")]
+        [Description("用户维护-方法-删除用户")]
+        public async Task<JsonResult> Delete(IdInput input)
+        {
+            return Json(await _systemUserLogic.Delete(input));
+        }
+
+        /// <summary>
+        ///    更新密码
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [CreateBy("Felix")]
+        [Description("用户维护-方法-修改密码")]
+        public async Task<JsonResult> UpdatePassword(UpdatePassInput input)
+        {
+            return Json(await _systemUserLogic.UpdatePassword(input));
+        }
         #endregion
     }
 }

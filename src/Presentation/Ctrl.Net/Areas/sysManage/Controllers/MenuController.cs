@@ -51,9 +51,8 @@ namespace Ctrl.Net.Areas.sysManage.Controllers
             SystemMenu menu = new SystemMenu();
             if (!input.Id.IsNullOrEmptyGuid())
             {
-                // menu =await _systemMenuLogic.GetById(input.Id);
-            }
-         
+                menu =await _systemMenuLogic.GetById(input.Id);
+            }         
             return View(menu);
         }
         #endregion

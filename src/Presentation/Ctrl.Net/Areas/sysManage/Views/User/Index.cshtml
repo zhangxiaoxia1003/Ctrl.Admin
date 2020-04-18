@@ -8,7 +8,7 @@
     <div id="toolbar">
         <h1 class="page-title">用户列表</h1>
         <div class="form-inline pull-right " id="toolbutton">
-            <button class="btn btn-default btn-xs" name="btn_select_box" type="submit"><i class=" fa fa-search fa-lg"></i> 查询 </button>
+            @*<button class="btn btn-default btn-xs" name="btn_select_box" type="submit"><i class=" fa fa-search fa-lg"></i> 查询 </button>*@
         </div>
 
     </div>
@@ -58,5 +58,45 @@
     })
     function btn_add_box() {
         $.windowsOpen("/sysManage/User/Edit", "新增用户", '55%', '60%');
+    }
+    function btn_edit_box() {
+        var obj = $grid.gridRowValue();
+        if (obj == null) {
+            $.Alert({ resultSign: 1, message: "请选择一个用户！" });
+            return false;
+        }
+        $.windowsOpen("/sysManage/User/Edit?id=" + obj.userId, "编辑", '55%', '95%');
+    }
+    function btn_updatePass_box() {
+        var obj = $grid.gridRowValue();
+        if (obj == null) {
+            $.Alert({ resultSign: 1, message: "请选择一个用户！" });
+            return false;
+        }
+        $.windowsOpen("/sysManage/User/UpdatePass?id=" + obj.userId, "修改密码", '55%', '65%');
+    }
+    function btn_delete_box() {
+        var obj = $grid.gridRowValue();
+        if (obj == null) {
+            $.Alert({ resultSign: 1, message: "请选择要删除的项！" });
+            return false;
+        }
+        Swal.fire({
+            title: '是否删除该数据?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '删除',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.value) {
+                $delete("/SysManage/User/Delete", { id: obj.userId }).then(function (data) {
+                    $.Alert(data, function () {
+                        $grid.registersearchClick();
+                    });
+                })
+            }
+        })
     }
 </script>

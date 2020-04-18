@@ -6,9 +6,6 @@
     <div id="toolbar">
         <h1 class="page-title">角色维护</h1>
         <div class="form-inline pull-right " id="toolbutton">
-
-            <button class="btn btn-default btn-xs" name="btn_select_box" type="submit"><i class=" fa fa-search fa-lg"></i> 查询 </button>
-
         </div>
 
     </div>
@@ -48,6 +45,14 @@
         $.windowsOpen("/sysManage/Role/Edit", "新增角色", '55%', '55%');
     }
 
+    function btn_edit_box() {
+        var obj = $grid.gridRowValue();
+        if (obj == null) {
+            $.Alert({ resultSign: 1, message: "请选择一条数据！" });
+            return false;
+        }
+        $.windowsOpen("/sysManage/Role/Edit?id=" + obj.roleId, "编辑", '55%', '95%');
+    }
   
     $("[name='btn_select_box']").click(function () {
         $grid.registersearchClick();
@@ -69,6 +74,31 @@
                 return false;
             }
             $.windowsOpen("/sysManage/Role/ChosenButton?roleid=" + obj.roleId, "按钮权限", '60%', '60%');
+    }
+
+    function btn_delete_box() {
+        var obj = $grid.gridRowValue();
+        if (obj == null) {
+            $.Alert({ resultSign: 1, message: "请选择要删除的项！" });
+            return false;
+        }
+        Swal.fire({
+            title: '是否删除该数据?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '删除',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.value) {
+                $delete("/SysManage/Role/Delete", { id: obj.roleId }).then(function (data) {
+                    $.Alert(data, function () {
+                        $grid.registersearchClick();
+                    });
+                })
+            }
+        })
     }
 
 </script>

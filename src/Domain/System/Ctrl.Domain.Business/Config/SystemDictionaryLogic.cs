@@ -12,6 +12,7 @@ using Ctrl.Domain.Models.Dtos.Config;
 using Ctrl.Core.Core.Utils;
 using Ctrl.Core.Entities.Dtos;
 using Ctrl.Core.Entities.Select2;
+using Ctrl.Core.Core.Resource;
 
 namespace Ctrl.System.Business
 {
@@ -80,6 +81,27 @@ namespace Ctrl.System.Business
         public Task<IEnumerable<Select2Entity>> GetTypeChildrenByCode(IdInput input)
         {
             return _systemDictionaryRepository.GetTypeChildrenByCode(input);
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<OperateStatus> Delete(IdInput input)
+        {
+            var OperateStatus = new OperateStatus();
+            var Entity = await GetById(input.Id);
+            //判断是否存在
+            if (Entity == default(SystemDictionary))
+            {
+                OperateStatus.ResultSign = ResultSign.Error;
+                OperateStatus.Message = Chs.HaveDelete;
+                goto Ending;
+            }
+            OperateStatus = await DeleteAsync(Entity);
+        Ending:
+            return OperateStatus;
         }
 
         #endregion

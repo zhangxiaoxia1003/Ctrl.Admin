@@ -10,6 +10,7 @@ using System;
 using Ctrl.Core.Core.Utils;
 using Ctrl.Domain.Models.Dtos.Permission;
 using Ctrl.Core.Entities.Dtos;
+using Ctrl.Core.Core.Resource;
 
 namespace Ctrl.System.Business
 {
@@ -61,6 +62,27 @@ namespace Ctrl.System.Business
         /// <returns></returns>
         public Task<IEnumerable<SystemMenuButtonOutput>> GetMenuButtonByMenuId(IdInput input) {
             return _systemMenuButtonRepository.GetMenuButtonByMenuId(input);
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<OperateStatus> Delete(IdInput input)
+        {
+            var OperateStatus = new OperateStatus();
+            var Entity = await GetById(input.Id);
+            //判断是否存在
+            if (Entity == default(SystemMenuButton))
+            {
+                OperateStatus.ResultSign = ResultSign.Error;
+                OperateStatus.Message = Chs.HaveDelete;
+                goto Ending;
+            }
+            OperateStatus = await DeleteAsync(Entity);
+        Ending:
+            return OperateStatus;
         }
         #endregion
     }
